@@ -7,7 +7,7 @@ transpose ([]:_) = []
 transpose x = (map head x) : transpose (map tail x)
 
 toBinary :: Int -> [ Int ]
-toBinary 0 = [0]     --this is a bug but we dont need binary rep of 0
+toBinary 0 = [0]     
 toBinary n = toBinary ( n `quot` 2 ) ++ [ n `rem` 2 ]
 
 toDec :: [Int] -> Int
@@ -27,19 +27,19 @@ toggle (x:xs) (y:ys) idx | idx == x && y == 1 = 0 : toggle xs ys (idx+1)
                          | otherwise = y : toggle (x:xs) ys (idx+1)
 
 --converts board into binary representation
-binBoard :: [Int] -> [[Int]]
+binBoard :: Board -> [Board]
 binBoard board = map toBinary board
 
 --finds maximum length of among binary represenations of numbers in board
-maxBinLen :: [[Int]] -> Int
+maxBinLen :: [Board] -> Int
 maxBinLen binBoard = maximum (map length binBoard)
 
 --makes binary representation of numbers in board as same length
-sameLenBins :: [[Int]] -> [[Int]]
+sameLenBins :: [Board] -> [Board]
 sameLenBins binBoard = map (\x -> replicate (maxBinLen binBoard - length x) 0 ++ x) binBoard
 
 --transpose board in binary representation and count ones for each col, if odd ones in col then for that col xorsum is 1
-xorSum :: [[Int]] -> [Int]
+xorSum :: [Board] -> [Int]
 xorSum bins = map (\x -> if 
                  | x `mod` 2 == 0 -> 0 
                  | otherwise -> 1) 
